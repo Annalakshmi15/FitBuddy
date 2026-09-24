@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FitBuddy - All Users</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<header class="site-header">
+
+    <div class="container header-content">
+
+        <div>
+            <h1>FitBuddy</h1>
+            <p>All Users & Generated Plans</p>
+        </div>
+
+        <a
+            class="nav-link"
+            href="/"
+        >
+            Home
+        </a>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <section class="hero">
+
+        <h2>
+            Stored Users
+        </h2>
+
+        <p>
+            User information and generated plans stored in SQLite.
+        </p>
+
+    </section>
+
+
+    {% if users %}
+
+        {% for user in users %}
+
+        <section class="card user-card">
+
+            <div class="user-header">
+
+                <div>
+
+                    <h2>
+                        {{ user.name }}
+                    </h2>
+
+                    <p>
+                        User ID: {{ user.id }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="user-details">
+
+                <div>
+                    <strong>Age</strong>
+                    <span>{{ user.age }}</span>
+                </div>
+
+                <div>
+                    <strong>Weight</strong>
+                    <span>{{ user.weight }} kg</span>
+                </div>
+
+                <div>
+                    <strong>Goal</strong>
+                    <span>{{ user.goal }}</span>
+                </div>
+
+                <div>
+                    <strong>Intensity</strong>
+                    <span>{{ user.intensity }}</span>
+                </div>
+
+                <div>
+                    <strong>Created</strong>
+                    <span>{{ user.created_at }}</span>
+                </div>
+
+            </div>
+
+
+            {% if user.preferences %}
+
+            <div class="data-section">
+
+                <h3>
+                    Preferences
+                </h3>
+
+                <p>
+                    {{ user.preferences }}
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+            <div class="data-section">
+
+                <h3>
+                    Original Workout Plan
+                </h3>
+
+                <pre>{{ user.original_plan }}</pre>
+
+            </div>
+
+
+            {% if user.updated_plan %}
+
+            <div class="data-section updated-section">
+
+                <h3>
+                    Updated Workout Plan
+                </h3>
+
+                <pre>{{ user.updated_plan }}</pre>
+
+            </div>
+
+            {% else %}
+
+            <div class="data-section">
+
+                <h3>
+                    Updated Workout Plan
+                </h3>
+
+                <p>
+                    No updated plan yet.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+            {% if user.feedback %}
+
+            <div class="data-section">
+
+                <h3>
+                    User Feedback
+                </h3>
+
+                <p>
+                    {{ user.feedback }}
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+            <div class="data-section tip-card">
+
+                <h3>
+                    Nutrition / Recovery Tip
+                </h3>
+
+                <p>
+                    {{ user.nutrition_tip }}
+                </p>
+
+            </div>
+
+        </section>
+
+        {% endfor %}
+
+    {% else %}
+
+        <section class="card empty-state">
+
+            <h2>
+                No Users Yet
+            </h2>
+
+            <p>
+                Generate your first workout plan from the home page.
+            </p>
+
+            <a
+                href="/"
+                class="primary-button inline-button"
+            >
+                Create First Plan
+            </a>
+
+        </section>
+
+    {% endif %}
+
+</main>
+
+
+<footer class="site-footer">
+
+    <p>
+        FitBuddy &copy; 2026
+    </p>
+
+</footer>
+
+</body>
+</html>

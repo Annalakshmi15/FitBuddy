@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FitBuddy - Your Plan</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='style.css') }}"
+    >
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="container header-content">
+
+        <div>
+            <h1>FitBuddy</h1>
+            <p>Your AI Fitness Plan</p>
+        </div>
+
+        <a
+            class="nav-link"
+            href="/"
+        >
+            Create New Plan
+        </a>
+
+    </div>
+</header>
+
+
+<main class="container">
+
+    {% if error %}
+    <div class="alert error">
+        {{ error }}
+    </div>
+    {% endif %}
+
+
+    {% if user and plan %}
+
+    <section class="hero">
+
+        {% if updated %}
+        <div class="success-badge">
+            Updated Plan
+        </div>
+        {% else %}
+        <div class="success-badge">
+            New Plan
+        </div>
+        {% endif %}
+
+        <h2>
+            {{ plan.title }}
+        </h2>
+
+        <p>
+            Hello {{ user.name }}!
+        </p>
+
+        <p>
+            {{ plan.overview }}
+        </p>
+
+    </section>
+
+
+    <section class="card">
+
+        <h2>
+            Your 7-Day Workout Plan
+        </h2>
+
+
+        {% for day in plan.days %}
+
+        <article class="day-card">
+
+            <div class="day-header">
+                <h3>
+                    {{ day.day }}
+                </h3>
+
+                <span class="focus">
+                    {{ day.focus }}
+                </span>
+            </div>
+
+
+            <div class="exercise-list">
+
+                {% for exercise in day.exercises %}
+
+                <div class="exercise">
+
+                    <h4>
+                        {{ exercise.name }}
+                    </h4>
+
+                    <p>
+                        <strong>Duration:</strong>
+                        {{ exercise.duration }}
+                    </p>
+
+                    <p>
+                        {{ exercise.instructions }}
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </section>
+
+
+    {% if nutrition_tip %}
+
+    <section class="card tip-card">
+
+        <h2>
+            Nutrition & Recovery Tip
+        </h2>
+
+        <p>
+            {{ nutrition_tip }}
+        </p>
+
+    </section>
+
+    {% endif %}
+
+
+    <section class="card">
+
+        <h2>
+            Want to Improve Your Plan?
+        </h2>
+
+        <p>
+            Tell FitBuddy what you would like to change.
+        </p>
+
+        <form
+            method="post"
+            action="/submit-feedback"
+        >
+
+            <input
+                type="hidden"
+                name="user_id"
+                value="{{ user.id }}"
+            >
+
+
+            <div class="form-group">
+
+                <label for="feedback">
+                    Your Feedback
+                </label>
+
+                <textarea
+                    id="feedback"
+                    name="feedback"
+                    rows="5"
+                    maxlength="2000"
+                    placeholder="Example: I prefer shorter workouts and more rest days."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-button"
+            >
+                Update My Plan
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <section class="action-section">
+
+        <a
+            href="/"
+            class="secondary-button"
+        >
+            Create Another Plan
+        </a>
+
+        <a
+            href="/view-all-users"
+            class="secondary-button"
+        >
+            View All Users
+        </a>
+
+    </section>
+
+    {% endif %}
+
+</main>
+
+
+<footer class="site-footer">
+    <p>
+        FitBuddy &copy; 2026
+    </p>
+</footer>
+
+</body>
+</html>
