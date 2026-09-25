@@ -39,10 +39,6 @@ def render_error(
     response_class=HTMLResponse,
 )
 async def home(request: Request):
-    """
-    Display the main fitness input form.
-    """
-
     return templates.TemplateResponse(
         request=request,
         name="index.html",
